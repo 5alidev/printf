@@ -1,41 +1,61 @@
 #include "main.h"
 /**
- * printchar - function that produces output according to a format.
+ * printchar - mini function to handle %c
  *
- * @args: format of value to print
+ * @args: arguments to print
+ * @count: count var
  *
  */
 
 void printchar(va_list args, int *count)
 {
-        char chihajalekher = (char)va_arg(args, int);
+	char chihajalekher = (char)va_arg(args, int);
 	(*count)++;
-        write(1, &chihajalekher, 1);
+	write(1, &chihajalekher, 1);
 }
 /**
- * printstring - function that produces output according to a format.
+ * printstring - mini function to hundle %s
  *
- * @args: format of value to print
- * @count: dakchi sheh
+ * @args: arguments to print
+ * @count: count var
  *
  */
-
 void printstring(va_list args, int *count)
 {
-        char *str = va_arg(args, char *);
+	char *str = va_arg(args, char *);
 
-        if (str == NULL)
-        {
-                str = "(null)";
-        }
-        while (*str)
-        {
-                write(1, str, 1);
-                str++;
+	if (str == NULL)
+	{
+		str = "(null)";
+	}
+	while (*str)
+	{
+		write(1, str, 1);
+		str++;
 		(*count)++;
-        }
+	}
 }
+/**
+ * print_int - mini function to handle %d and %i
+ *
+ * @args: arguments to print
+ * @count: count var
+ *
+ * Return: Nothing (void)
+ */
+void print_int(va_list args, int *count)
+{
+	int num = va_arg(args, int);
+	int num_digits = snprintf(NULL, 0, "%d", num);
+	char *num_str = malloc(num_digits + 1);
 
+	if (num_str == NULL)
+		return;
+	snprintf(num_str, num_digits + 1, "%d", num);
+	write(1, num_str, num_digits);
+	(*count) += num_digits;
+	free(num_str);
+}
 
 /**
  * _printf - function that produces output according to a format.
@@ -67,6 +87,10 @@ int _printf(const char *format, ...)
 				case '%':
 					count++;
 					write(1, "%", 1);
+					break;
+				case 'd':
+				case 'i':
+					print_int(args, &count);
 					break;
 			}
 			i++;
