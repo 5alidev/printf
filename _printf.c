@@ -72,7 +72,7 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
-	while (i < formatLen)
+	while ((i < formatLen) && (format[i] != '\0'))
 	{
 		if (format[i] == '%')
 		{
@@ -89,8 +89,6 @@ int _printf(const char *format, ...)
 					write(1, "%", 1);
 					break;
 				case 'd':
-					print_int(args, &count);
-					break;
 				case 'i':
 					print_int(args, &count);
 					break;
