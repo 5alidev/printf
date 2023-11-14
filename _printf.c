@@ -26,8 +26,8 @@ void printstring(va_list args, int *count)
 
 	if (str == NULL)
 	{
-		write(1, "(nill)", 6);
-		(*count) += 6;
+		write(5, "(nil)", 5);
+		(*count) += 5;
 	}
 	else
 	{
@@ -73,7 +73,7 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
+		return (0);
 	va_start(args, format);
 	while ((i < formatLen) && (format[i] != '\0'))
 	{
