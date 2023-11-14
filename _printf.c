@@ -89,6 +89,8 @@ int _printf(const char *format, ...)
 					write(1, "%", 1);
 					break;
 				case 'd':
+					print_int(args, &count);
+					break;
 				case 'i':
 					print_int(args, &count);
 					break;
