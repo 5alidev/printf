@@ -26,13 +26,15 @@ void printstring(va_list args, int *count)
 
 	if (str == NULL)
 	{
-		str = "(null)";
+		write(1, "(null)", 6);
+		(*count) += 6;
 	}
-	while (*str)
+	else
 	{
-		write(1, str, 1);
-		str++;
-		(*count)++;
+		int strLen = strlen(str);
+
+		write(1, str, strLen);
+		(*count) += strLen;
 	}
 }
 /**
