@@ -26,7 +26,7 @@ void printstring(va_list args, int *count)
 
 	if (str == NULL)
 	{
-		write(1, "(null)", 6);
+		write(1, "(nill)", 6);
 		(*count) += 6;
 	}
 	else
@@ -68,41 +68,43 @@ void print_int(va_list args, int *count)
  */
 int _printf(const char *format, ...)
 {
-	int i = 0;
-	int count = 0;
+	int i = 0, count = 0;
 	int formatLen = strlen(format);
 	va_list args;
 
-	va_start(args, format);
-	while ((i < formatLen) && (format[i] != '\0'))
+	if (format != NULL)
 	{
-		if (format[i] == '%')
+		va_start(args, format);
+		while ((i < formatLen) && (format[i] != '\0'))
 		{
-			switch (format[i + 1])
+			if (format[i] == '%')
 			{
-				case 'c':
-					printchar(args, &count);
-					break;
-				case 's':
-					printstring(args, &count);
-					break;
-				case '%':
-					count++;
-					write(1, "%", 1);
-					break;
-				case 'd':
-				case 'i':
-					print_int(args, &count);
-					break;
+				switch (format[i + 1])
+				{
+					case 'c':
+						printchar(args, &count);
+						break;
+					case 's':
+						printstring(args, &count);
+						break;
+					case '%':
+						count++;
+						write(1, "%", 1);
+						break;
+					case 'd':
+					case 'i':
+						print_int(args, &count);
+						break;
+				}
+				i++;
+			}
+			else
+			{
+				write(1, &format[i], 1);
+				count++;
 			}
 			i++;
 		}
-		else
-		{
-			write(1, &format[i], 1);
-			count++;
-		}
-		i++;
 	}
 	va_end(args);
 	return (count);
